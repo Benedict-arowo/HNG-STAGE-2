@@ -1,7 +1,6 @@
 import path from "path";
 import config from "../config";
 import { Express, Router } from "express";
-import demoRouter from "./demo.router";
 import fs from "fs";
 
 const routelist = <{ default: { routeUrl: string; Router: Router } }[]>[];

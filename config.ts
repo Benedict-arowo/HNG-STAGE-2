@@ -4,6 +4,7 @@ const config: Iconfig = {
 	ROUTE_PREFIX: "api",
 	NODE_ENV: "development",
 	PORT: parseInt(process.env.PORT as string) || 5000,
+	JWT_KEY: process.env.JWT_KEY as string,
 	DB: {
 		HOST: process.env.HOST as string,
 		PORT: parseInt(process.env.PORT as string),
@@ -24,6 +25,7 @@ interface Iconfig {
 	ROUTE_PREFIX?: string;
 	NODE_ENV: "development" | "production";
 	PORT: number;
+	JWT_KEY: string;
 	DB: {
 		HOST: string;
 		PORT: number;

@@ -8,6 +8,7 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(cors(config.CORS_OPTION));
+app.use(express.json());
 Routes(app);
 app.use(ErrorHandler);
 
