@@ -9,20 +9,24 @@ const Authenticated = async (
 	_res: Response,
 	next: NextFunction
 ) => {
-	const token = req.headers["authorization"]?.split(" ")[1];
+	try {
+		const token = req.headers["authorization"]?.split(" ")[1];
 
-	if (!token || token.length !== 2) {
-		throw new BadrequestError("Invalid token");
+		if (!token) return next(new BadrequestError("Invalid token"));
+		const { id: userId } = jwt.verify(
+			token,
+			config.JWT_KEY as string
+		) as any;
+
+		if (!userId) return next(new BadrequestError("Invalid token"));
+		console.log(userId);
+
+		const user = await USER.findUniqueOrThrow({ where: { userId } });
+		(req as any).user = user;
+		next();
+	} catch (err: any) {
+		return next(new BadrequestError("Invalid user"));
 	}
-
-	const { userId } = jwt.verify(token, config.JWT_KEY as string) as any;
-	console.log(userId);
-
-	if (!userId) throw new BadrequestError("Invalid token");
-
-	const user = await USER.findUniqueOrThrow({ where: { userId } });
-	(req as any).user = user;
-	next();
 };
 
 export default Authenticated;

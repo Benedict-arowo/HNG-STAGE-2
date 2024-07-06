@@ -1,5 +1,5 @@
 import config from "../config";
-import { BadrequestError, InternalServerError } from "../middlewears/error";
+import { BadrequestError, ValidationError } from "../middlewears/error";
 import { USER } from "../prisma/db";
 import argon from "argon2";
 import jwt from "jsonwebtoken";
@@ -19,7 +19,7 @@ class AuthService {
 				},
 			});
 
-			if (!argon.verify(user.password, password))
+			if (!(await argon.verify(user.password, password)))
 				throw new BadrequestError("Authentication failed");
 
 			return {
@@ -52,7 +52,7 @@ class AuthService {
 						create: {
 							organisation: {
 								create: {
-									name: `${firstName}'s  Organization`,
+									name: `${firstName}'s Organisation`,
 									description:
 										"This is the default desription, please feel free to change it.",
 								},
@@ -74,13 +74,18 @@ class AuthService {
 				user,
 			};
 		} catch (err: any) {
-			console.log(err);
+			if (err.code === "P2002")
+				throw new ValidationError([
+					{ field: "email", message: "Email already exists" },
+				]);
 			throw new BadrequestError("Registration unsuccessful");
 		}
 	};
 
 	private generateToken = (payload: any) => {
-		const token = jwt.sign(payload, config.JWT_KEY);
+		const token = jwt.sign(payload, config.JWT_KEY, {
+			expiresIn: "1h",
+		});
 
 		return token;
 	};

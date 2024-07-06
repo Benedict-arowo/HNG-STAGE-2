@@ -7,7 +7,7 @@ Router.route("/")
 	.get(Authenticated, orgsController.getAll)
 	.post(Authenticated, orgsController.createOrganisation);
 Router.route("/:orgId").get(Authenticated, orgsController.getOrganisation);
-Router.route(":orgId/users").post(Authenticated, orgsController.addUser);
+Router.route("/:orgId/users").post(Authenticated, orgsController.addUser);
 
 export default {
 	routeUrl: "organisations",

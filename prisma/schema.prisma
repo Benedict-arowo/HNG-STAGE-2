@@ -31,9 +31,9 @@ model Organisation {
 }
 
 model OrganisationOnUser {
-  organisation       Organisation     @relation(fields: [organisationId], references: [orgId])
+  organisation       Organisation     @relation(fields: [organisationId], references: [orgId], onDelete: Cascade)
   organisationId     String // relation scalar field (used in the `@relation` attribute above)
-  user   User @relation(fields: [userId], references: [userId])
+  user   User @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String // relation scalar field (used in the `@relation` attribute above)
   assignedAt DateTime @default(now())
 

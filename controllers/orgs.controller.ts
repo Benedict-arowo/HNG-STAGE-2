@@ -2,27 +2,22 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import orgsService from "../services/orgs.service";
 import Wrapper from "../middlewears/wrapper";
+import validator from "../middlewears/validators";
+import {
+	addUserSchema,
+	createOrgsSchema,
+} from "../middlewears/validators/orgs.validator";
 
 class OrgsController {
 	public getAll = Wrapper(async (req: Request, res: Response) => {
 		const {
 			user: { userId },
 		} = req as any;
-		// gets all your organisations the user belongs to or created. If a user is logged in properly, they can get all their organisations. They should not get another user’s organisation [PROTECTED].
 		const orgs = await orgsService.getMany(userId);
-
 		return res.status(StatusCodes.OK).json({
 			status: "success",
-			message: "<message>",
-			data: {
-				organisations: [
-					{
-						orgId: "string",
-						name: "string",
-						description: "string",
-					},
-				],
-			},
+			message: "Organizations retrieved successfully",
+			data: orgs,
 		});
 	});
 
@@ -31,19 +26,14 @@ class OrgsController {
 			body: { name, description },
 			user: { userId },
 		} = req as any;
+		validator(createOrgsSchema, req.body);
 		const org = await orgsService.create({ name, description, userId });
 
 		res.status(StatusCodes.CREATED).json({
 			status: "success",
 			message: "Organisation created successfully",
 			data: org,
-			// data: {
-			// 	orgId: "string",
-			// 	name: "string",
-			// 	description: "string",
-			// },
 		});
-		// : a user can create their new organisation [PROTECTED].
 	});
 
 	public getOrganisation = Wrapper(async (req: Request, res: Response) => {
@@ -51,17 +41,12 @@ class OrgsController {
 			params: { orgId },
 		} = req as any;
 
-		const org = await orgsService.getOne(orgId);
-		// the logged in user gets a single organisation record [PROTECTED]
+		const org = await orgsService.getOne(orgId, (req as any).user.userId);
 
 		return res.status(StatusCodes.OK).json({
 			status: "success",
-			message: "<message>",
-			data: {
-				orgId: "string",
-				name: "string",
-				description: "string",
-			},
+			message: "Organization retrieved successfully",
+			data: org,
 		});
 	});
 
@@ -71,8 +56,8 @@ class OrgsController {
 			body: { userId },
 			params: { orgId },
 		} = req;
-
-		await orgsService.addUser(userId, orgId);
+		validator(addUserSchema, req.body);
+		await orgsService.addUser(userId, orgId, (req as any).user.userId);
 
 		return res.status(StatusCodes.OK).json({
 			status: "success",
