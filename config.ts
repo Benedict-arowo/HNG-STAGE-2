@@ -2,7 +2,7 @@ require("dotenv").config({ path: "./.env" });
 
 const config: Iconfig = {
 	ROUTE_PREFIX: "api",
-	NODE_ENV: "development",
+	NODE_ENV: process.env.NODE_ENV as "development" | "production",
 	PORT: parseInt(process.env.PORT as string) || 5000,
 	JWT_KEY: process.env.JWT_KEY as string,
 	DB: {

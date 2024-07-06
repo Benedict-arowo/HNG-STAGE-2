@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import config from "../config";
 import ErrorParent, { ValidationError } from "./error";
-import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 
 const ErrorHandler = (
 	err: any,
