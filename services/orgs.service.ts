@@ -71,8 +71,8 @@ class OrgsService {
 
 	public addUser = async (
 		userId: string,
-		orgId: string,
-		activeUser: string
+		orgId: string
+		// activeUser: string
 	) => {
 		try {
 			const org = await ORG.findUniqueOrThrow({
@@ -84,10 +84,10 @@ class OrgsService {
 				},
 			});
 
-			if (!org.user.find((user) => user.userId === activeUser))
-				throw new BadrequestError(
-					"You are not allowed to perform this action."
-				);
+			// if (!org.user.find((user) => user.userId === activeUser))
+			// 	throw new BadrequestError(
+			// 		"You are not allowed to perform this action."
+			// 	);
 
 			const data = await ORG.update({
 				where: { orgId: orgId },

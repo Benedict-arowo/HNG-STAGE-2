@@ -57,7 +57,7 @@ class OrgsController {
 			params: { orgId },
 		} = req;
 		validator(addUserSchema, req.body);
-		await orgsService.addUser(userId, orgId, (req as any).user.userId);
+		await orgsService.addUser(userId, orgId);
 
 		return res.status(StatusCodes.OK).json({
 			status: "success",
