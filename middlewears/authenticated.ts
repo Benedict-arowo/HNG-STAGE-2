@@ -12,20 +12,21 @@ const Authenticated = async (
 	try {
 		const token = req.headers["authorization"]?.split(" ")[1];
 
-		if (!token) return next(new UnauthorizedError("Invalid token"));
+		if (!token) return next(new UnauthorizedError("Authentication failed"));
 		const { id: userId } = jwt.verify(
 			token,
 			config.JWT_KEY as string
 		) as any;
 
-		if (!userId) return next(new UnauthorizedError("Invalid token"));
+		if (!userId)
+			return next(new UnauthorizedError("Authentication failed"));
 		console.log(userId);
 
 		const user = await USER.findUniqueOrThrow({ where: { userId } });
 		(req as any).user = user;
 		next();
 	} catch (err: any) {
-		return next(new UnauthorizedError("Unauthorized"));
+		return next(new UnauthorizedError("Authentication failed"));
 	}
 };
 
