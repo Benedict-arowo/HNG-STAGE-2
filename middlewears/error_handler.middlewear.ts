@@ -19,14 +19,14 @@ const ErrorHandler = (
 			status: err.status,
 			message: err.message,
 			statusCode: err.code,
-			stack: config.NODE_ENV === "development" ? err.stack : null,
+			// stack: config.NODE_ENV === "development" ? err.stack : null,
 		});
 	else
 		return res.status(500).json({
 			status: "Internal Server Error",
 			message: err.message,
 			statusCode: 500,
-			stack: config.NODE_ENV === "development" ? err.stack : null,
+			// stack: config.NODE_ENV === "development" ? err.stack : null,
 		});
 };
 
