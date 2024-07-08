@@ -22,9 +22,11 @@ class AuthService {
 			if (!(await argon.verify(user.password, password)))
 				throw new BadrequestError("Authentication failed");
 
+			delete (user as any)["password"];
+
 			return {
 				accessToken: this.generateToken({ id: user.userId }),
-				user: { ...user, password: null },
+				user,
 			};
 		} catch (err: any) {
 			console.log(err);
