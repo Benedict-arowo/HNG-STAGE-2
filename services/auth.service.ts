@@ -59,8 +59,6 @@ class AuthService {
 							organisation: {
 								create: {
 									name: `${firstName}'s Organisation`,
-									description:
-										"This is the default desription, please feel free to change it.",
 								},
 							},
 						},
