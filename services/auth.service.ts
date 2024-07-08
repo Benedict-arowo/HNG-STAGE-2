@@ -78,10 +78,10 @@ class AuthService {
 				user,
 			};
 		} catch (err: any) {
-			if (err.code === "P2002")
-				throw new ValidationError([
-					{ field: "email", message: "Email already exists" },
-				]);
+			// if (err.code === "P2002")
+			// 	throw new ValidationError([
+			// 		{ field: "email", message: "Email already exists" },
+			// 	]);
 			throw new BadrequestError("Registration unsuccessful");
 		}
 	};
