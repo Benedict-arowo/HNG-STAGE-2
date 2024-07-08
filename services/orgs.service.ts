@@ -106,7 +106,7 @@ class OrgsService {
 				throw new BadrequestError(
 					"User is already a member of the organization."
 				);
-			throw new BadrequestError("Error.");
+			throw new BadrequestError("Client Error.");
 		}
 	};
 }

@@ -1,5 +1,9 @@
 import config from "../config";
-import { BadrequestError, ValidationError } from "../middlewears/error";
+import {
+	BadrequestError,
+	UnauthorizedError,
+	ValidationError,
+} from "../middlewears/error";
 import { USER } from "../prisma/db";
 import argon from "argon2";
 import jwt from "jsonwebtoken";
@@ -80,7 +84,7 @@ class AuthService {
 				throw new ValidationError([
 					{ field: "email", message: "Email already exists" },
 				]);
-			throw new BadrequestError("Registration unsuccessful");
+			throw new UnauthorizedError("Registration unsuccessful");
 		}
 	};
 
