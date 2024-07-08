@@ -34,7 +34,7 @@ class AuthService {
 			};
 		} catch (err: any) {
 			console.log(err);
-			throw new UnauthorizedError("Authentication Failed");
+			throw new BadrequestError("Authentication failed");
 		}
 	};
 
