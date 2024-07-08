@@ -6,6 +6,6 @@ const Router = express.Router();
 Router.route("/:userId").get(Authenticated, userController.getUser);
 
 export default {
-	routeUrl: "users",
+	routeUrl: "api/users",
 	Router,
 };

@@ -17,16 +17,18 @@ const Routes = (app: Express) => {
 	// Routes registration
 	routelist.forEach((route) => {
 		const { routeUrl, Router } = route.default;
-		let prefix = "";
+		let prefix = undefined;
 
 		// Looks for a route prefix eg: (/api/v1)
 		if (config.ROUTE_PREFIX) {
-			if (config.ROUTE_PREFIX?.startsWith("/"))
+			if (config.ROUTE_PREFIX === "/") prefix = undefined;
+			else if (config.ROUTE_PREFIX?.startsWith("/"))
 				prefix = config.ROUTE_PREFIX;
 			else prefix = "/" + config.ROUTE_PREFIX;
 		}
 		// Constructs the url for the route
-		const url = prefix ? prefix + "/" + routeUrl : routeUrl;
+		const url = prefix ? prefix + "/" + routeUrl : "/" + routeUrl;
+		console.log(url);
 		app.use(url, Router);
 	});
 

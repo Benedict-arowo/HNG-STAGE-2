@@ -10,6 +10,6 @@ Router.route("/:orgId").get(Authenticated, orgsController.getOrganisation);
 Router.route("/:orgId/users").post(Authenticated, orgsController.addUser);
 
 export default {
-	routeUrl: "organisations",
+	routeUrl: "api/organisations",
 	Router,
 };
