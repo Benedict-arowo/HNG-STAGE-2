@@ -34,7 +34,7 @@ class AuthService {
 			};
 		} catch (err: any) {
 			console.log(err);
-			throw new BadrequestError("Authentication failed");
+			throw new UnauthorizedError("Registration unsuccessful");
 		}
 	};
 
@@ -84,7 +84,7 @@ class AuthService {
 				throw new ValidationError([
 					{ field: "email", message: "Email already exists" },
 				]);
-			throw new UnauthorizedError("Registration unsuccessful");
+			throw new BadrequestError("Authentication failed");
 		}
 	};
 
