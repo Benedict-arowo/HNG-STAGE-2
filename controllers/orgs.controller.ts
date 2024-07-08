@@ -17,7 +17,9 @@ class OrgsController {
 		return res.status(StatusCodes.OK).json({
 			status: "success",
 			message: "Organizations retrieved successfully",
-			data: orgs,
+			data: {
+				organisations: orgs,
+			},
 		});
 	});
 
