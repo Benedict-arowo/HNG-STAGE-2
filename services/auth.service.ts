@@ -82,7 +82,7 @@ class AuthService {
 			// 	throw new ValidationError([
 			// 		{ field: "email", message: "Email already exists" },
 			// 	]);
-			throw new BadrequestError("Authentication failed");
+			throw new BadrequestError("Registration unsuccessful");
 		}
 	};
 
