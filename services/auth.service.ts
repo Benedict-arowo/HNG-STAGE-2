@@ -4,7 +4,7 @@ import {
 	UnauthorizedError,
 	ValidationError,
 } from "../middlewears/error";
-import { USER } from "../prisma/db";
+import { ORG, USER } from "../prisma/db";
 import argon from "argon2";
 import jwt from "jsonwebtoken";
 
@@ -24,7 +24,7 @@ class AuthService {
 			});
 
 			if (!(await argon.verify(user.password, password)))
-				throw new BadrequestError("Authentication failed");
+				throw new UnauthorizedError("Authentication failed");
 
 			delete (user as any)["password"];
 
