@@ -46,7 +46,7 @@ describe("Auth Endpoints", () => {
 	});
 
 	it("should register a user successfully with default organisation", async () => {
-		const res = await request(app).post("/api/auth/register").send({
+		const res = await request(app).post("/auth/register").send({
 			firstName: "John",
 			lastName: "Doe",
 			email: "john.doe@example.com",
@@ -90,7 +90,7 @@ describe("Auth Endpoints", () => {
 	});
 
 	it("should log the user in successfully", async () => {
-		const res = await request(app).post("/api/auth/login").send({
+		const res = await request(app).post("/auth/login").send({
 			email: "john.doe@example.com",
 			password: "password123",
 		});
@@ -105,7 +105,7 @@ describe("Auth Endpoints", () => {
 	});
 
 	it("should return 422 if firstName is missing", async () => {
-		const res = await request(app).post("/api/auth/register").send({
+		const res = await request(app).post("/auth/register").send({
 			lastName: "Doe",
 			email: "john.doe@example.com",
 			password: "password123",
@@ -125,7 +125,7 @@ describe("Auth Endpoints", () => {
 	});
 
 	it("should return 422 if lastName is missing", async () => {
-		const res = await request(app).post("/api/auth/register").send({
+		const res = await request(app).post("/auth/register").send({
 			firstName: "John",
 			email: "john.doe@example.com",
 			password: "password123",
@@ -145,7 +145,7 @@ describe("Auth Endpoints", () => {
 	});
 
 	it("should return 422 if email is missing", async () => {
-		const res = await request(app).post("/api/auth/register").send({
+		const res = await request(app).post("/auth/register").send({
 			firstName: "John",
 			lastName: "Doe",
 			password: "password123",
@@ -165,7 +165,7 @@ describe("Auth Endpoints", () => {
 	});
 
 	it("should return 422 if password is missing", async () => {
-		const res = await request(app).post("/api/auth/register").send({
+		const res = await request(app).post("/auth/register").send({
 			firstName: "John",
 			lastName: "Doe",
 			email: "john.doe@example.com",
@@ -193,19 +193,16 @@ describe("Auth Endpoints", () => {
 			phone: "1234567890",
 		};
 
-		const res1 = await request(app)
-			.post("/api/auth/register")
-			.send(userData);
+		const res1 = await request(app).post("/auth/register").send(userData);
 
 		expect(res1.statusCode).toEqual(201);
 
-		const res2 = await request(app)
-			.post("/api/auth/register")
-			.send(userData);
+		const res2 = await request(app).post("/auth/register").send(userData);
 
-		expect(res2.statusCode).toEqual(422);
-		expect(res2.body).toHaveProperty("errors", [
-			{ field: "email", message: "Email already exists" },
-		]);
+		expect(res2.statusCode).toEqual(400);
+		expect(res2.body).toHaveProperty(
+			"message",
+			"Registration unsuccessful"
+		);
 	});
 });
